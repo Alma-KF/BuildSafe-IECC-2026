@@ -62,15 +62,32 @@
 
 <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8" v-cloak>
     
-    <header class="bg-[#1e4085] rounded-t-2xl px-6 py-8 sm:px-10 sm:py-10 mb-8 text-left flex flex-col justify-center" style="background-color: #2e7d32;">
-        <div class="flex items-center mb-3">
-            <!-- Two leaves SVG logo -->
-            <svg class="w-10 h-10 mr-4 text-green-300 drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21.0028 2.7663C21.0028 2.7663 15.656 2.05047 11.2335 5.86777C10.702 6.32626 10.2224 6.83733 9.79469 7.3917C8.16739 6.27367 6.07185 5.83606 3.99268 6.44473C3.99268 6.44473 0.287042 7.74797 2.14717 14.1565C3.39343 18.4526 8.79093 21.0055 8.79093 21.0055L9.62002 23.3667L11.5303 22.6974L10.6698 20.247C12.4277 19.986 14.0754 19.1675 15.3404 17.8427C20.0886 12.8687 21.0028 2.7663 21.0028 2.7663ZM14.0205 16.5866C11.5273 19.1983 6.94056 18.7397 5.17697 18.1215C5.17697 18.1215 5.25055 13.9165 9.06602 11.5361C12.8815 9.15573 14.0205 16.5866 14.0205 16.5866ZM17.1519 14.1852C16.2796 15.9388 14.8872 17.382 13.0645 18.3619C12.9866 18.2327 12.8988 18.1065 12.7981 17.986C10.9818 15.8631 10.1555 12.9095 10.5902 10.0163C11.1396 7.64394 12.6393 5.58605 14.7332 4.38048C17.0654 3.03732 19.7892 2.87157 19.7892 2.87157C19.7892 2.87157 18.9103 9.47563 17.1519 14.1852Z"/>
-            </svg>
-            <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">BuildSafe Calculator</h1>
+    <header class="relative bg-[#1e4085] rounded-t-2xl px-6 py-8 sm:px-10 sm:py-10 mb-8 text-left flex flex-col justify-center overflow-visible" style="background-color: #2e7d32;">
+        <div class="relative z-10 w-full md:w-2/3">
+            <div class="flex items-center mb-3">
+                <!-- Two leaves SVG logo (Custom Match) -->
+                <svg class="w-12 h-12 mr-4 drop-shadow-md" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                <!-- Right Leaf & Stem -->
+                <path d="M 55 110 C 55 70, 75 30, 110 15 C 110 50, 80 90, 58 95 C 55 105, 55 110, 55 110 Z" fill="#8dc63f" />
+                <!-- Left Leaf -->
+                <path d="M 52 85 C 35 75, 10 50, 5 30 C 30 25, 55 45, 52 85 Z" fill="#8dc63f" />
+                <!-- Center Stem Cutout (Negative Space) -->
+                <path d="M 55 110 C 55 70, 75 30, 110 15 C 100 20, 65 60, 58 95 Z" fill="#a4d160" />
+                </svg>
+                <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">BuildSafe Calculator</h1>
+            </div>
+            <p class="text-base sm:text-lg text-green-100 font-light">Design an urban shelter by balancing structural resilience with environmental impact.</p>
         </div>
-        <p class="text-base sm:text-lg text-green-100 font-light">Design an urban shelter by balancing structural resilience with environmental impact.</p>
+
+        <!-- Anjana Mascot in Header -->
+        <div class="absolute right-4 -bottom-10 md:-bottom-16 z-50 pointer-events-none flex items-end">
+            <!-- Speech Bubble -->
+            <div class="hidden sm:block bg-white text-green-800 text-sm font-bold px-4 py-2 rounded-2xl rounded-br-none shadow-lg mb-28 md:mb-40 mr-[-20px] border-2 border-green-200 animate-bounce">
+                Let's build a safe, eco-friendly urban shelter!
+            </div>
+            <!-- Character Image -->
+            <img src="https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/Anjana-Jaidaru.png" alt="BuildSafe Guide" class="h-40 md:h-64 object-contain drop-shadow-xl" />
+        </div>
     </header>
 
     <div class="flex flex-col md:flex-row gap-8 items-start">
@@ -82,7 +99,7 @@
             <div v-for="(category, catIndex) in categories" :key="category.id">
                 <div class="mb-4">
                     <h2 class="text-2xl font-bold text-gray-800 flex items-center">
-                        <span class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">
+                        <span class="bg-green-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">
                             {{ catIndex + 1 }}
                         </span>
                         {{ category.title }}
@@ -97,7 +114,7 @@
                          class="card-transition relative rounded-2xl overflow-hidden cursor-pointer h-48 sm:h-56 group"
                          :class="[
                              isSelected(category.id, material) 
-                                ? 'border-4 border-blue-500 shadow-xl scale-105 z-10' 
+                                ? 'border-4 border-green-500 shadow-xl scale-105 z-10' 
                                 : 'border-4 border-transparent shadow-md hover:shadow-lg hover:-translate-y-1'
                          ]">
                         
@@ -106,11 +123,11 @@
                         
                         <!-- Dark Overlay -->
                         <div class="absolute inset-0 transition-colors duration-300"
-                             :class="isSelected(category.id, material) ? 'bg-blue-900/40' : 'bg-black/40 group-hover:bg-black/30'">
+                             :class="isSelected(category.id, material) ? 'bg-green-900/40' : 'bg-black/40 group-hover:bg-black/30'">
                         </div>
 
                         <!-- Checkmark Icon (Visible when selected) -->
-                        <div v-if="isSelected(category.id, material)" class="absolute top-3 right-3 bg-blue-500 text-white rounded-full p-1 shadow-md">
+                        <div v-if="isSelected(category.id, material)" class="absolute top-3 right-3 bg-green-500 text-white rounded-full p-1 shadow-md">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
                         </div>
 
@@ -133,8 +150,8 @@
             <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 border border-gray-100">
                 
                 <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-                    <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    Live Performance
+                    <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    Shelter Quality
                 </h2>
 
                 <div class="space-y-8">
@@ -209,16 +226,6 @@
 
             </div>
         </div>
-    </div>
-
-    <!-- Floating Mascot -->
-    <div class="fixed bottom-0 right-4 flex items-end pointer-events-none z-50">
-      <!-- Speech Bubble -->
-      <div class="bg-white text-green-800 text-sm font-bold px-4 py-2 rounded-2xl rounded-br-none shadow-lg mb-20 mr-[-20px] border-2 border-green-200 animate-bounce">
-        Let's build a safe urban shelter!
-      </div>
-      <!-- Character Image -->
-      <img src="https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/Anjana-Jaidaru.png" alt="BuildSafe Guide" class="h-48 md:h-64 object-contain drop-shadow-xl" />
     </div>
 </div>
 
