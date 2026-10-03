@@ -234,9 +234,9 @@
               title: 'Foundation',
               subtitle: 'The base structure holding your shelter up.',
               options: [
-                { id: 'f_concrete', name: 'Concrete Slab', res: 40, eco: 10, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/concrete-slab-foundation.jpg' },
-                { id: 'f_stilts', name: 'Wooden Stilts', res: 25, eco: 45, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/wooden-stilts-foundation.jpg' },
-                { id: 'f_stone', name: 'Stone Foundation', res: 35, eco: 30, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/stone-foundation.jpg' }
+                { id: 'concrete', name: 'Concrete Slab', res: 40, eco: 10, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/concrete-slab-foundation.jpg' },
+                { id: 'stilts', name: 'Wooden Stilts', res: 25, eco: 45, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/wooden-stilts-foundation.jpg' },
+                { id: 'stone', name: 'Stone Foundation', res: 35, eco: 30, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/stone-foundation.jpg' }
               ]
             },
             {
@@ -244,9 +244,9 @@
               title: 'Walls',
               subtitle: 'Protection from wind, heat, and intruders.',
               options: [
-                { id: 'w_brick', name: 'Red Brick', res: 35, eco: 10, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/red-brick-wall.jpg' },
-                { id: 'w_bamboo', name: 'Bamboo Wall', res: 20, eco: 50, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/bamboo-wall.jpg' },
-                { id: 'w_ecobrick', name: 'Eco-Bricks', res: 30, eco: 45, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/eco-brick-wall.jpg' }
+                { id: 'brick', name: 'Red Brick', res: 35, eco: 10, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/red-brick-wall.jpg' },
+                { id: 'bamboo', name: 'Bamboo Wall', res: 20, eco: 50, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/bamboo-wall.jpg' },
+                { id: 'ecobrick', name: 'Eco-Bricks', res: 30, eco: 45, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/eco-brick-wall.jpg' }
               ]
             },
             {
@@ -254,9 +254,9 @@
               title: 'Roofing',
               subtitle: 'Defense against rain and solar heat.',
               options: [
-                { id: 'r_solar', name: 'Solar Panels', res: 25, eco: 50, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/solar-panels-roof.jpg' },
-                { id: 'r_thatch', name: 'Thatch Roof', res: 15, eco: 45, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/thatch-roof.jpg' },
-                { id: 'r_metal', name: 'Corrugated Metal', res: 30, eco: 15, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/corrugated-metal-roof.jpg' }
+                { id: 'solar', name: 'Solar Panels', res: 25, eco: 50, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/solar-panels-roof.jpg' },
+                { id: 'thatch', name: 'Thatch Roof', res: 15, eco: 45, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/thatch-roof.jpg' },
+                { id: 'metal', name: 'Corrugated Metal', res: 30, eco: 15, image: 'https://raw.githubusercontent.com/Alma-KF/BuildSafe-IECC-2026/refs/heads/main/corrugated-metal-roof.jpg' }
               ]
             }
           ];
@@ -270,38 +270,41 @@
                     roof: null
                 },
                 
-                // USER INSTRUCTION: Replace these placehold.co URLs with your actual generated image URLs later.
+                
                 // The key format is strictly: roofId-wallId-foundationId
                 houseImages: {
+                    // Solar Roofs
                     'solar-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Concrete+Base',
-                    'solar-brick-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Bamboo+Base',
-                    'solar-brick-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Plastic+Base',
-                    'solar-earth-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Earth+Wall,+Concrete+Base',
-                    'solar-earth-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Earth+Wall,+Bamboo+Base',
-                    'solar-earth-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Earth+Wall,+Plastic+Base',
-                    'solar-metal-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Metal+Wall,+Concrete+Base',
-                    'solar-metal-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Metal+Wall,+Bamboo+Base',
-                    'solar-metal-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Metal+Wall,+Plastic+Base',
-
-                    'clay-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Brick+Wall,+Concrete+Base',
-                    'clay-brick-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Brick+Wall,+Bamboo+Base',
-                    'clay-brick-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Brick+Wall,+Plastic+Base',
-                    'clay-earth-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Earth+Wall,+Concrete+Base',
-                    'clay-earth-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Earth+Wall,+Bamboo+Base',
-                    'clay-earth-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Earth+Wall,+Plastic+Base',
-                    'clay-metal-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Metal+Wall,+Concrete+Base',
-                    'clay-metal-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Metal+Wall,+Bamboo+Base',
-                    'clay-metal-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Metal+Wall,+Plastic+Base',
-
-                    'sheet-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Brick+Wall,+Concrete+Base',
-                    'sheet-brick-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Brick+Wall,+Bamboo+Base',
-                    'sheet-brick-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Brick+Wall,+Plastic+Base',
-                    'sheet-earth-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Earth+Wall,+Concrete+Base',
-                    'sheet-earth-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Earth+Wall,+Bamboo+Base',
-                    'sheet-earth-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Earth+Wall,+Plastic+Base',
-                    'sheet-metal-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Metal+Wall,+Concrete+Base',
-                    'sheet-metal-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Metal+Wall,+Bamboo+Base',
-                    'sheet-metal-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Metal+Wall,+Plastic+Base'
+                    'solar-brick-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Stilts+Base',
+                    'solar-brick-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Stone+Base',
+                    'solar-bamboo-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Bamboo+Wall,+Concrete+Base',
+                    'solar-bamboo-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Bamboo+Wall,+Stilts+Base',
+                    'solar-bamboo-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Bamboo+Wall,+Stone+Base',
+                    'solar-ecobrick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Ecobrick+Wall,+Concrete+Base',
+                    'solar-ecobrick-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Ecobrick+Wall,+Stilts+Base',
+                    'solar-ecobrick-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Ecobrick+Wall,+Stone+Base',
+                
+                    // Thatch Roofs
+                    'thatch-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Brick+Wall,+Concrete+Base',
+                    'thatch-brick-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Brick+Wall,+Stilts+Base',
+                    'thatch-brick-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Brick+Wall,+Stone+Base',
+                    'thatch-bamboo-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Bamboo+Wall,+Concrete+Base',
+                    'thatch-bamboo-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Bamboo+Wall,+Stilts+Base',
+                    'thatch-bamboo-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Bamboo+Wall,+Stone+Base',
+                    'thatch-ecobrick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Ecobrick+Wall,+Concrete+Base',
+                    'thatch-ecobrick-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Ecobrick+Wall,+Stilts+Base',
+                    'thatch-ecobrick-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Thatch+Roof,+Ecobrick+Wall,+Stone+Base',
+                
+                    // Metal Roofs
+                    'metal-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Brick+Wall,+Concrete+Base',
+                    'metal-brick-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Brick+Wall,+Stilts+Base',
+                    'metal-brick-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Brick+Wall,+Stone+Base',
+                    'metal-bamboo-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Bamboo+Wall,+Concrete+Base',
+                    'metal-bamboo-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Bamboo+Wall,+Stilts+Base',
+                    'metal-bamboo-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Bamboo+Wall,+Stone+Base',
+                    'metal-ecobrick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Ecobrick+Wall,+Concrete+Base',
+                    'metal-ecobrick-stilts': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Ecobrick+Wall,+Stilts+Base',
+                    'metal-ecobrick-stone': 'https://placehold.co/800x600/2e7d32/ffffff?text=Metal+Roof,+Ecobrick+Wall,+Stone+Base'
                 }
             }
         },
