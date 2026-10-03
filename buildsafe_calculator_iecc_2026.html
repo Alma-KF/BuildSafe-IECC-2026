@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildSafe: Shelter Durability Calculator</title>
+    
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Vue 3 via CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Load Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .progress-bar-fill {
+            transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease-in-out;
+        }
+        .card-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [v-cloak] { display: none; }
+        
+        /* Hide scrollbar for a cleaner look while maintaining scrollability */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Fade Transition Classes for Image Changes */
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.5s ease;
+            position: absolute;
+        }
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased min-h-screen">
+
+<div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8" v-cloak>
+    
+    <header class="bg-[#1e4085] rounded-t-2xl px-6 py-8 sm:px-10 sm:py-10 mb-8 text-left flex flex-col justify-center" style="background-color: #2e7d32;">
+        <div class="flex items-center mb-3">
+            <!-- Two leaves SVG logo -->
+            <svg class="w-10 h-10 mr-4 text-green-300 drop-shadow-sm" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21.0028 2.7663C21.0028 2.7663 15.656 2.05047 11.2335 5.86777C10.702 6.32626 10.2224 6.83733 9.79469 7.3917C8.16739 6.27367 6.07185 5.83606 3.99268 6.44473C3.99268 6.44473 0.287042 7.74797 2.14717 14.1565C3.39343 18.4526 8.79093 21.0055 8.79093 21.0055L9.62002 23.3667L11.5303 22.6974L10.6698 20.247C12.4277 19.986 14.0754 19.1675 15.3404 17.8427C20.0886 12.8687 21.0028 2.7663 21.0028 2.7663ZM14.0205 16.5866C11.5273 19.1983 6.94056 18.7397 5.17697 18.1215C5.17697 18.1215 5.25055 13.9165 9.06602 11.5361C12.8815 9.15573 14.0205 16.5866 14.0205 16.5866ZM17.1519 14.1852C16.2796 15.9388 14.8872 17.382 13.0645 18.3619C12.9866 18.2327 12.8988 18.1065 12.7981 17.986C10.9818 15.8631 10.1555 12.9095 10.5902 10.0163C11.1396 7.64394 12.6393 5.58605 14.7332 4.38048C17.0654 3.03732 19.7892 2.87157 19.7892 2.87157C19.7892 2.87157 18.9103 9.47563 17.1519 14.1852Z"/>
+            </svg>
+            <h1 class="text-3xl sm:text-4xl font-bold text-white tracking-tight">BuildSafe Calculator</h1>
+        </div>
+        <p class="text-base sm:text-lg text-green-100 font-light">Design an urban emergency shelter by balancing structural resilience with environmental impact.</p>
+    </header>
+
+    <div class="flex flex-col md:flex-row gap-8 items-start">
+        
+        <!-- Left Column: Material Selection (Scrollable) -->
+        <div class="w-full md:w-2/3 space-y-10">
+            
+            <!-- Category Block Template -->
+            <div v-for="(category, catIndex) in categories" :key="category.id">
+                <div class="mb-4">
+                    <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                        <span class="bg-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center mr-3 text-sm">
+                            {{ catIndex + 1 }}
+                        </span>
+                        {{ category.title }}
+                    </h2>
+                    <p class="text-gray-500 mt-1 ml-11">{{ category.subtitle }}</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 ml-0 lg:ml-11">
+                    <!-- Material Cards -->
+                    <div v-for="material in category.options" :key="material.name"
+                         @click="selectMaterial(category.id, material)"
+                         class="card-transition relative rounded-2xl overflow-hidden cursor-pointer h-48 sm:h-56 group"
+                         :class="[
+                             isSelected(category.id, material) 
+                                ? 'border-4 border-blue-500 shadow-xl scale-105 z-10' 
+                                : 'border-4 border-transparent shadow-md hover:shadow-lg hover:-translate-y-1'
+                         ]">
+                        
+                        <!-- Background Image -->
+                        <img :src="material.image" :alt="material.name" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        
+                        <!-- Dark Overlay -->
+                        <div class="absolute inset-0 transition-colors duration-300"
+                             :class="isSelected(category.id, material) ? 'bg-blue-900/40' : 'bg-black/40 group-hover:bg-black/30'">
+                        </div>
+
+                        <!-- Checkmark Icon (Visible when selected) -->
+                        <div v-if="isSelected(category.id, material)" class="absolute top-3 right-3 bg-blue-500 text-white rounded-full p-1 shadow-md">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="absolute inset-0 p-4 flex flex-col justify-end text-white">
+                            <h3 class="font-bold text-lg leading-tight mb-1 drop-shadow-md">{{ material.name }}</h3>
+                            <div class="flex space-x-3 text-xs font-semibold drop-shadow-md opacity-90">
+                                <span>Res: {{ material.res }}</span>
+                                <span>Eco: {{ material.eco }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Sticky Dashboard -->
+        <div class="w-full md:w-1/3 sticky top-6">
+            <div class="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 border border-gray-100">
+                
+                <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                    Live Performance
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- Resilience Score -->
+                    <div>
+                        <div class="flex justify-between items-end mb-2">
+                            <div>
+                                <h3 class="font-bold text-gray-700">Resilience Score</h3>
+                                <p class="text-xs text-gray-500">Structural integrity & safety</p>
+                            </div>
+                            <span class="text-3xl font-extrabold" :class="getTextColor(resilienceScore)">{{ resilienceScore }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3.5 overflow-hidden">
+                            <div class="h-full rounded-full progress-bar-fill" 
+                                 :class="getBgColor(resilienceScore)" 
+                                 :style="{ width: Math.min(resilienceScore, 100) + '%' }">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eco Score -->
+                    <div>
+                        <div class="flex justify-between items-end mb-2">
+                            <div>
+                                <h3 class="font-bold text-gray-700">Eco-Score</h3>
+                                <p class="text-xs text-gray-500">Sustainability & footprint</p>
+                            </div>
+                            <span class="text-3xl font-extrabold" :class="getTextColor(ecoScore)">{{ ecoScore }}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-3.5 overflow-hidden">
+                            <div class="h-full rounded-full progress-bar-fill" 
+                                 :class="getBgColor(ecoScore)" 
+                                 :style="{ width: Math.min(ecoScore, 100) + '%' }">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h3 class="text-sm uppercase tracking-wider font-bold text-gray-400 mb-3">Shelter Status</h3>
+                    <div class="p-4 rounded-xl transition-colors duration-300" :class="statusBoxClass">
+                        <div class="flex items-start">
+                            <svg v-if="resilienceScore > 75 && ecoScore > 75" class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg v-else class="w-6 h-6 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <p class="text-sm font-medium leading-snug">{{ statusMessage }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shelter Visualization Feature -->
+                <div class="mt-8">
+                    <h3 class="text-sm uppercase tracking-wider font-bold text-gray-400 mb-3">Shelter Visualization</h3>
+                    <div class="relative w-full h-56 rounded-xl overflow-hidden bg-gray-100 border border-gray-200 flex flex-col items-center justify-center">
+                        <template v-if="allSelected">
+                            <transition name="fade">
+                                <img :key="visualizationImage" :src="visualizationImage" alt="Shelter Concept" class="absolute inset-0 w-full h-full object-cover">
+                            </transition>
+                            <!-- Gradient overlay to ensure text readability if needed -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none z-10"></div>
+                            <div class="absolute bottom-3 left-4 right-4 z-20">
+                                <p class="text-xs text-white/90 font-medium leading-tight">
+                                    Concept built with {{ selections.foundation.name }}, {{ selections.walls.name }}, and {{ selections.roof.name }}.
+                                </p>
+                            </div>
+                        </template>
+                        <div v-else class="text-center p-6 text-gray-400">
+                            <svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <p class="text-sm">Select all 3 materials to visualize your shelter.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const { createApp } = Vue
+
+    createApp({
+        data() {
+            // Data provided in instructions mapped to categories
+            const categories = [
+                {
+                    id: 'foundation',
+                    title: 'Foundation',
+                    subtitle: 'The base structure holding your shelter up.',
+                    options: [
+                        { id: 'concrete', name: 'Concrete Slab', res: 40, eco: 10, image: 'https://images.unsplash.com/photo-1516924962500-2b4b3b99ea02?auto=format&fit=crop&w=500&q=80' },
+                        { id: 'bamboo', name: 'Bamboo Pilings', res: 20, eco: 45, image: 'https://images.unsplash.com/photo-1530026217688-66249be55307?auto=format&fit=crop&w=500&q=80' },
+                        { id: 'plastic', name: 'Recycled Plastic', res: 30, eco: 40, image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=500&q=80' }
+                    ]
+                },
+                {
+                    id: 'walls',
+                    title: 'Walls',
+                    subtitle: 'Protection from wind, heat, and intruders.',
+                    options: [
+                        { id: 'brick', name: 'Brick & Mortar', res: 35, eco: 10, image: 'https://images.unsplash.com/photo-1518640467705-ba3abee3718f?auto=format&fit=crop&w=500&q=80' },
+                        { id: 'earth', name: 'Rammed Earth', res: 25, eco: 40, image: 'https://images.unsplash.com/photo-1616423548984-7a134a66a70a?auto=format&fit=crop&w=500&q=80' },
+                        { id: 'metal', name: 'Corrugated Metal', res: 30, eco: 15, image: 'https://images.unsplash.com/photo-1530983818320-eb7ce5761a5b?auto=format&fit=crop&w=500&q=80' }
+                    ]
+                },
+                {
+                    id: 'roof',
+                    title: 'Roofing',
+                    subtitle: 'Defense against rain and solar heat.',
+                    options: [
+                        { id: 'solar', name: 'Solar Tiles', res: 25, eco: 50, image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=500&q=80' },
+                        { id: 'clay', name: 'Clay Tiles', res: 35, eco: 30, image: 'https://images.unsplash.com/photo-1605335193910-802baadcd2fc?auto=format&fit=crop&w=500&q=80' },
+                        { id: 'sheet', name: 'Sheet Metal', res: 30, eco: 10, image: 'https://images.unsplash.com/photo-1614711311756-3b95a8fbdb2b?auto=format&fit=crop&w=500&q=80' }
+                    ]
+                }
+            ];
+
+            return {
+                categories,
+                // Track selections by category ID, initializing to null to trigger placeholder
+                selections: {
+                    foundation: null,
+                    walls: null,
+                    roof: null
+                },
+                
+                // USER INSTRUCTION: Replace these placehold.co URLs with your actual generated image URLs later.
+                // The key format is strictly: roofId-wallId-foundationId
+                houseImages: {
+                    'solar-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Concrete+Base',
+                    'solar-brick-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Bamboo+Base',
+                    'solar-brick-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Brick+Wall,+Plastic+Base',
+                    'solar-earth-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Earth+Wall,+Concrete+Base',
+                    'solar-earth-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Earth+Wall,+Bamboo+Base',
+                    'solar-earth-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Earth+Wall,+Plastic+Base',
+                    'solar-metal-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Metal+Wall,+Concrete+Base',
+                    'solar-metal-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Metal+Wall,+Bamboo+Base',
+                    'solar-metal-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Solar+Roof,+Metal+Wall,+Plastic+Base',
+
+                    'clay-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Brick+Wall,+Concrete+Base',
+                    'clay-brick-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Brick+Wall,+Bamboo+Base',
+                    'clay-brick-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Brick+Wall,+Plastic+Base',
+                    'clay-earth-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Earth+Wall,+Concrete+Base',
+                    'clay-earth-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Earth+Wall,+Bamboo+Base',
+                    'clay-earth-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Earth+Wall,+Plastic+Base',
+                    'clay-metal-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Metal+Wall,+Concrete+Base',
+                    'clay-metal-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Metal+Wall,+Bamboo+Base',
+                    'clay-metal-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Clay+Roof,+Metal+Wall,+Plastic+Base',
+
+                    'sheet-brick-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Brick+Wall,+Concrete+Base',
+                    'sheet-brick-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Brick+Wall,+Bamboo+Base',
+                    'sheet-brick-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Brick+Wall,+Plastic+Base',
+                    'sheet-earth-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Earth+Wall,+Concrete+Base',
+                    'sheet-earth-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Earth+Wall,+Bamboo+Base',
+                    'sheet-earth-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Earth+Wall,+Plastic+Base',
+                    'sheet-metal-concrete': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Metal+Wall,+Concrete+Base',
+                    'sheet-metal-bamboo': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Metal+Wall,+Bamboo+Base',
+                    'sheet-metal-plastic': 'https://placehold.co/800x600/2e7d32/ffffff?text=Sheet+Roof,+Metal+Wall,+Plastic+Base'
+                }
+            }
+        },
+        computed: {
+            allSelected() {
+                return this.selections.foundation && this.selections.walls && this.selections.roof;
+            },
+            resilienceScore() {
+                let score = 0;
+                if (this.selections.foundation) score += this.selections.foundation.res;
+                if (this.selections.walls) score += this.selections.walls.res;
+                if (this.selections.roof) score += this.selections.roof.res;
+                return score;
+            },
+            ecoScore() {
+                let score = 0;
+                if (this.selections.foundation) score += this.selections.foundation.eco;
+                if (this.selections.walls) score += this.selections.walls.eco;
+                if (this.selections.roof) score += this.selections.roof.eco;
+                return score;
+            },
+            statusMessage() {
+                if (!this.allSelected) return "Awaiting complete material selection...";
+                const res = this.resilienceScore;
+                const eco = this.ecoScore;
+                
+                if (res >= 85 && eco >= 85) {
+                    return "Incredible! You've achieved a perfect balance of fortress-like strength and sustainability.";
+                } else if (res > eco + 40) {
+                    return "Built like a fortress, but heavily polluting. Consider upgrading to greener materials.";
+                } else if (eco > res + 40) {
+                    return "Highly sustainable and eco-friendly, but might be vulnerable to severe storms or impacts.";
+                } else if (res < 70 && eco < 70) {
+                    return "This build is risky. Try selecting higher-quality materials for both safety and the environment.";
+                } else {
+                    return "A solid, balanced approach to emergency shelter building.";
+                }
+            },
+            statusBoxClass() {
+                if (!this.allSelected) return "bg-gray-100 text-gray-500";
+                const res = this.resilienceScore;
+                const eco = this.ecoScore;
+                
+                if (res >= 85 && eco >= 85) return "bg-green-100 text-green-800";
+                if (res > eco + 40) return "bg-blue-100 text-blue-800";
+                if (eco > res + 40) return "bg-teal-100 text-teal-800";
+                if (res < 70 && eco < 70) return "bg-red-100 text-red-800";
+                return "bg-gray-100 text-gray-800";
+            },
+            visualizationImage() {
+                // If not all three materials are selected, show a placeholder welcome image
+                if (!this.allSelected) {
+                    return 'https://placehold.co/800x600/f3f4f6/a3a8b4?text=Select+all+3+materials+to+preview';
+                }
+                
+                // Construct the unique combination key: roofId-wallId-foundationId
+                const combinationKey = `${this.selections.roof.id}-${this.selections.walls.id}-${this.selections.foundation.id}`;
+                
+                // Return the matching image from the houseImages object
+                return this.houseImages[combinationKey];
+            }
+        },
+        methods: {
+            selectMaterial(categoryId, material) {
+                this.selections[categoryId] = material;
+            },
+            isSelected(categoryId, material) {
+                // Safely check if the selection exists before reading .name
+                return this.selections[categoryId] && this.selections[categoryId].name === material.name;
+            },
+            getBgColor(score) {
+                if (score >= 85) return 'bg-green-500';
+                if (score >= 60) return 'bg-yellow-400';
+                return 'bg-red-500';
+            },
+            getTextColor(score) {
+                if (score >= 85) return 'text-green-600';
+                if (score >= 60) return 'text-yellow-500';
+                return 'text-red-600';
+            }
+        }
+    }).mount('#app')
+</script>
+</body>
+</html>
