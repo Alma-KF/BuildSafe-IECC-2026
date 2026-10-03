@@ -228,38 +228,38 @@
     createApp({
         data() {
             // Data provided in instructions mapped to categories
-            const categories = [
-                {
-                    id: 'foundation',
-                    title: 'Foundation',
-                    subtitle: 'The base structure holding your shelter up.',
-                    options: [
-                        { id: 'concrete', name: 'Concrete Slab', res: 40, eco: 10, image: 'https://millerprecast.ca/wp-content/uploads/2024/09/Slabs-2-1.jpg' },
-                        { id: 'bamboo', name: 'Bamboo Pilings', res: 20, eco: 45, image: 'https://images.unsplash.com/photo-1530026217688-66249be55307?auto=format&fit=crop&w=500&q=80' },
-                        { id: 'plastic', name: 'Recycled Plastic', res: 30, eco: 40, image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=500&q=80' }
-                    ]
-                },
-                {
-                    id: 'walls',
-                    title: 'Walls',
-                    subtitle: 'Protection from wind, heat, and intruders.',
-                    options: [
-                        { id: 'brick', name: 'Brick & Mortar', res: 35, eco: 10, image: 'https://images.unsplash.com/photo-1518640467705-ba3abee3718f?auto=format&fit=crop&w=500&q=80' },
-                        { id: 'earth', name: 'Rammed Earth', res: 25, eco: 40, image: 'https://images.unsplash.com/photo-1616423548984-7a134a66a70a?auto=format&fit=crop&w=500&q=80' },
-                        { id: 'metal', name: 'Corrugated Metal', res: 30, eco: 15, image: 'https://images.unsplash.com/photo-1530983818320-eb7ce5761a5b?auto=format&fit=crop&w=500&q=80' }
-                    ]
-                },
-                {
-                    id: 'roof',
-                    title: 'Roofing',
-                    subtitle: 'Defense against rain and solar heat.',
-                    options: [
-                        { id: 'solar', name: 'Solar Tiles', res: 25, eco: 50, image: 'https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?auto=format&fit=crop&w=500&q=80' },
-                        { id: 'clay', name: 'Clay Tiles', res: 35, eco: 30, image: 'https://images.unsplash.com/photo-1605335193910-802baadcd2fc?auto=format&fit=crop&w=500&q=80' },
-                        { id: 'sheet', name: 'Sheet Metal', res: 30, eco: 10, image: 'https://images.unsplash.com/photo-1614711311756-3b95a8fbdb2b?auto=format&fit=crop&w=500&q=80' }
-                    ]
-                }
-            ];
+            const categories: [
+            {
+              id: 'foundation',
+              title: 'Foundation',
+              subtitle: 'The base structure holding your shelter up.',
+              options: [
+                { id: 'f_concrete', name: 'Concrete Slab', res: 40, eco: 10, img: 'watermarked_img_5235845260558721789.jpg' },
+                { id: 'f_stilts', name: 'Wooden Stilts', res: 25, eco: 45, img: 'watermarked_img_3890218079013980320.jpg' },
+                { id: 'f_stone', name: 'Stone Foundation', res: 35, eco: 30, img: 'watermarked_img_3998000337515131948.jpg' }
+              ]
+            },
+            {
+              id: 'walls',
+              title: 'Walls',
+              subtitle: 'Protection from wind, heat, and intruders.',
+              options: [
+                { id: 'w_brick', name: 'Red Brick', res: 35, eco: 10, img: 'watermarked_img_3830336370939677066.jpg' },
+                { id: 'w_bamboo', name: 'Bamboo Wall', res: 20, eco: 50, img: 'watermarked_img_900426407225991465.jpg' },
+                { id: 'w_ecobrick', name: 'Eco-Bricks', res: 30, eco: 45, img: 'watermarked_img_6957268436329745261.jpg' }
+              ]
+            },
+            {
+              id: 'roofing',
+              title: 'Roofing',
+              subtitle: 'Defense against rain and solar heat.',
+              options: [
+                { id: 'r_solar', name: 'Solar Panels', res: 25, eco: 50, img: 'watermarked_img_18232369950834513988.jpg' },
+                { id: 'r_thatch', name: 'Thatch Roof', res: 15, eco: 45, img: 'watermarked_img_348946837664959742.jpg' },
+                { id: 'r_metal', name: 'Corrugated Metal', res: 30, eco: 15, img: 'watermarked_img_4374191429441540447.jpg' }
+              ]
+            }
+          ],;
 
             return {
                 categories,
